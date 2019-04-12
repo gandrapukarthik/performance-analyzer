@@ -193,7 +193,13 @@ afterEvaluate {
                 fileMode 0755
             }
         }
-        postInstall file('packaging/rpm/postinst')
+
+				if (isDeb) {
+          preInstall file('packaging/deb/preinst')
+        }
+        if (!isDeb) {
+          postInstall file('packaging/rpm/postinst')
+        }
 
         user 'root'
         permissionGroup 'root'
