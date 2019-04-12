@@ -194,8 +194,8 @@ afterEvaluate {
             }
         }
 
-	if (isDeb) {
-          preInstall file('packaging/deb/preinst')
+	    if (isDeb) {
+          postInstall file('packaging/deb/postinst')
         } else {
           postInstall file('packaging/rpm/postinst')
         }

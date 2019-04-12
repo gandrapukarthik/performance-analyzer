@@ -11,22 +11,15 @@ if ! grep -q '## OpenDistro Performance Analyzer' /etc/elasticsearch/jvm.options
 fi
 
 IS_UPGRADE=false
-case "$1" in
-    install)
-        # If $1=install this is an install
-        IS_UPGRADE=false
-        ;;
-
-    upgrade|abort-upgrade)
-        # If $1=upgrade this is an upgrade
-        IS_UPGRADE=true
-        ;;
-
-    *)
-        echo "preinst called with unknown argument \`$1'" >&2
-        exit 0
-        ;;
-esac
+# Below codeblock is using the fact that postinst script is called with the most-recently configured version.
+# In other words, a fresh installed will be called like "postinst configure" with no previous version ($2 is null)
+if [ -z "$2" ]; then
+  # If $2 is null, this is an install
+  IS_UPGRADE=false
+else
+  # otherwise this is an upgrade
+  IS_UPGRADE=true
+fi
 
 #DEBHELPER#
 
